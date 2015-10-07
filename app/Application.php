@@ -2,7 +2,11 @@
 Class Application {
 	
 	protected $request;
-	
+
+
+	/**
+	 * Run application
+	 */
 	public function run() {
 		try {
 			echo $this->route();
@@ -10,11 +14,19 @@ Class Application {
 			echo $e->getMessage();
 		}
 	}
-	
+
+
 	public function __construct(Request $request) {
 		$this->request = $request;
 	}
-	
+
+
+	/**
+	 * Run method in controller
+	 *
+	 * @return mixed
+	 * @throws Exception
+	 */
 	public function route() {
 		$controller_name = 'Controller' . ucfirst($this->request->getController());
 		$action_name = 'Action'.ucfirst($this->request->getAction());

@@ -13,6 +13,12 @@ Class View {
 		$this->params = $params;
 	}
 
+	/**
+	 * render view file
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
 	public function render() {
 		ob_start();
 		ob_implicit_flush(false);
@@ -26,6 +32,14 @@ Class View {
 		return BASE_URL;
 	}
 
+
+	/**
+	 * Find view file
+	 *
+	 * @param $viewName
+	 * @return string
+	 * @throws Exception
+	 */
 	protected function findFile($viewName) {
 		$path = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . $this->viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
 		if(!is_file($path)){
@@ -34,6 +48,12 @@ Class View {
 		return $path;
 	}
 
+
+	/**
+	 * required view to layout
+	 *
+	 * @throws Exception
+	 */
 	protected function getContent() {
 		$contentFile = $this->findFile($this->name);
 		extract($this->params, EXTR_OVERWRITE);

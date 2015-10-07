@@ -1,8 +1,13 @@
 <?php 
 Class BaseModel {
 	private $errors = [];
-	
-	
+
+
+	/**
+	 * Validate model and fill errors
+	 *
+	 * @return bool
+	 */
 	public function validate() {
 		$attributes = $this->getAttributes();
 
@@ -18,8 +23,13 @@ Class BaseModel {
 		}
 		return count($this->errors) == 0;
 	}
-	
 
+
+	/**
+	 * Load data to model
+	 *
+	 * @param $data
+	 */
 	public function load($data) {
 		foreach($this->getAttributes() as $name => $val) {
 			if(isset($data[$name])) {
@@ -29,6 +39,11 @@ Class BaseModel {
 	}
 
 
+	/**
+	 * Save data model
+	 *
+	 * @return bool
+	 */
 	public function save() {
 		$storage = new Storage();
 		$data = [];
@@ -40,6 +55,11 @@ Class BaseModel {
 	}
 
 
+	/**
+	 * Get attributes model
+	 *
+	 * @return array
+	 */
 	public function getAttributes() {
 		$attr = get_object_vars($this);
 		unset($attr['errors']);
@@ -47,6 +67,11 @@ Class BaseModel {
 	}
 
 
+	/**
+	 * Return after validate
+	 *
+	 * @return array
+	 */
 	public function getErrors() {
 		return $this->errors;
 	}
