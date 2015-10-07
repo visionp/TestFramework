@@ -23,7 +23,7 @@ Class Application {
 			$controller->request = $this->request;
 			return $controller->$action_name();
 		} else {
-			throw new Exception('Метод ' . $action_name . ' не существует.');
+			throw new Exception('Method ' . $action_name . ' not exist.');
 		}
 	}
 }

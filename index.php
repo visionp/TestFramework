@@ -7,7 +7,7 @@ function __autoload($class_name) {
 	if(is_file($file)){
 		include_once $file;
 	} else {
-		throw new Exception('Не найден класс ' . $file);
+		throw new Exception('Not found file ' . $file);
 	}    
 }
 
