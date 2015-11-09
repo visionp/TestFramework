@@ -1,8 +1,8 @@
 {
-    "name": "simpleFramework",
-    "description": "Yii2 fitbato",
-    "keywords": ["yii2", "fitbato"],
-    "homepage": "http://fitbato.codemotion.eu/",
+    "name": "simple-framework",
+    "description": "simple framework",
+    "keywords": ["simple framework"],
+    "homepage": "https://github.com/visionp/TestFramework",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
