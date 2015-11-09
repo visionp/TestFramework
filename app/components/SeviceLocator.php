@@ -44,6 +44,7 @@ class SeviceLocator extends  ComponentBase {
         if(!isset($this->config[$name]['class'])) {
             throw new \Exception("Set name class $name");
         }
+
         $className = $this->config[$name]['class'];
         $obj = new $className();
 
