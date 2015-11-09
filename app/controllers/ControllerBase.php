@@ -1,6 +1,8 @@
 <?php
 namespace controllers;
 
+use views\View;
+
 Class ControllerBase {
 
 	public $request;

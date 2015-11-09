@@ -1,16 +1,20 @@
 <?php
 use components\Request;
+use components\SeviceLocator;
 
 Class Application {
 	
 	protected $request;
+	protected static $config;
+    protected static $app;
 
 
 	/**
 	 * Run application
 	 */
-	public function run() {
+	public function run(Request $request) {
 		try {
+            $this->request = $request;
 			echo $this->route();
 		}catch (Exception $e){
 			echo $e->getMessage();
@@ -18,8 +22,8 @@ Class Application {
 	}
 
 
-	public function __construct(Request $request) {
-		$this->request = $request;
+	public function __construct($config) {
+        self::$config = $config;
 	}
 
 
@@ -39,5 +43,15 @@ Class Application {
 		} else {
 			throw new Exception('Method ' . $action_name . ' not exist.');
 		}
+	}
+
+    /**
+     * @return SeviceLocator
+     */
+	public static function app() {
+        if(empty(self::$app)){
+            self::$app = new SeviceLocator(self::$config);
+        }
+        return self::$app;
 	}
 }

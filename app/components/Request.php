@@ -1,7 +1,7 @@
 <?php 
 namespace components;
 
-Class Request {
+Class Request  extends  ComponentBase {
 	
 	public $defaultController = 'index';
 	public $defaultAction = 'index';

@@ -1,7 +1,7 @@
 <?php
 namespace components;
 
-class Storage {
+class Storage  extends  ComponentBase {
 
     public function add($data) {
         $old = $this->get();

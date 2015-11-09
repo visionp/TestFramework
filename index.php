@@ -21,6 +21,8 @@ spl_autoload_register('loadClassF');
 
 require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Application.php');
 
+$config = require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config.php');
+
 $request = new \components\Request();
-$app = new Application($request);
-$app->run();
+$app = new Application($config);
+$app->run($request);

@@ -2,22 +2,23 @@
 namespace controllers;
 
 use models\FormModel;
-use views\View;
+use components\Storage;
 
 Class ControllerIndex extends ControllerBase{
 
 	public $request;
 	
 	public function actionIndex() {
-/*
-		$redis = new \Redis();
+
+        $redis = \Application::app()->redis;
+
 		$redis->connect('127.0.0.1', 6379);
 		$redis->auth('root');
 		//$redis->set('df', 45);
 		echo $redis->get('df');
 		die();
 
-		*/
+
 		$form = new FormModel();
 		if($this->request->getIsAjax()) {
 			$form->load($this->request->getPost());
@@ -38,18 +39,6 @@ Class ControllerIndex extends ControllerBase{
 		return $this->render('list', [
 			'data' => $storage->get()
 		]);
-	}	
-	
-	
-	public function sendJson($data) {
-		echo json_encode($data);
-		die();
-	}
-
-	
-	protected function render($viewName, $options = []) {
-		$view = new View($viewName, $options);
-		return $view->render();
 	}
 	
 }
