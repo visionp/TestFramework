@@ -2,7 +2,7 @@
 const MAIN_DIRECTORY = __DIR__;
 const BASE_URL = '';
 
-function __autoload($class_name) {
+function loadClassF($class_name) {
 	$file = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $class_name . '.php';
 	if(is_file($file)){
 		include_once $file;
@@ -10,6 +10,9 @@ function __autoload($class_name) {
 		throw new Exception('Not found file ' . $file);
 	}    
 }
+
+spl_autoload_register('loadClassF');
+
 
 $request = new Request();
 $app = new Application($request);
