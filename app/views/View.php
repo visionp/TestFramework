@@ -1,4 +1,6 @@
 <?php
+namespace views;
+
 Class View {
 
 	public $layout = 'layout';
@@ -38,12 +40,12 @@ Class View {
 	 *
 	 * @param $viewName
 	 * @return string
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	protected function findFile($viewName) {
-		$path = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . $this->viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
+		$path = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $this->viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
 		if(!is_file($path)){
-			throw new Exception('Не найдено файл ' . $path);
+			throw new \Exception('Не найдено файл ' . $path);
 		}
 		return $path;
 	}

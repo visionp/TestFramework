@@ -1,21 +1,23 @@
 <?php
 namespace controllers;
 
+use models\FormModel;
+use views\View;
+
 Class ControllerIndex extends ControllerBase{
 
 	public $request;
 	
 	public function actionIndex() {
-
+/*
 		$redis = new \Redis();
 		$redis->connect('127.0.0.1', 6379);
 		$redis->auth('root');
 		//$redis->set('df', 45);
 		echo $redis->get('df');
-
-
-
 		die();
+
+		*/
 		$form = new FormModel();
 		if($this->request->getIsAjax()) {
 			$form->load($this->request->getPost());
