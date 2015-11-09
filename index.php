@@ -2,10 +2,16 @@
 const MAIN_DIRECTORY = __DIR__;
 const BASE_URL = '';
 
+$composer_autoload_path = MAIN_DIRECTORY . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
+
+if(is_file($composer_autoload_path)){
+	require($composer_autoload_path);
+}
+
 function loadClassF($class_name) {
-	$file = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $class_name . '.php';
+	$file = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $class_name . '.php');
 	if(is_file($file)){
-		include_once $file;
+		include_once ($file);
 	} else {
 		throw new Exception('Not found file ' . $file);
 	}    
@@ -13,7 +19,8 @@ function loadClassF($class_name) {
 
 spl_autoload_register('loadClassF');
 
+require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Application.php');
 
-$request = new Request();
+$request = new \components\Request();
 $app = new Application($request);
 $app->run();

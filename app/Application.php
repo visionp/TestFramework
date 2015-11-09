@@ -1,4 +1,6 @@
 <?php
+use components\Request;
+
 Class Application {
 	
 	protected $request;
@@ -28,7 +30,7 @@ Class Application {
 	 * @throws Exception
 	 */
 	public function route() {
-		$controller_name = 'Controller' . ucfirst($this->request->getController());
+		$controller_name = '\controllers\Controller' . ucfirst($this->request->getController());
 		$action_name = 'Action'.ucfirst($this->request->getAction());
 		$controller = new  $controller_name;
 		if(method_exists($controller, $action_name)){

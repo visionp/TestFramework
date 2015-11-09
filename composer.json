@@ -1,16 +1,14 @@
 {
-    "name": "visionp/simple-framework-e",
-    "description": "simple framework",
-    "keywords": ["simple framework"],
-    "homepage": "https://github.com/visionp/TestFramework",
+    "name": "visionp/test-ws",
+    "description": "test-ws",
+    "keywords": ["test-ws"],
     "type": "project",
     "license": "BSD-3-Clause",
-    "support": {
-        "issues": "https://github.com/visionp/TestFramework"
-    },
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+		"predis/predis" : "*",
+		"sl4mmer/phpcent":"dev-master"
     },
     "require-dev": {
     },

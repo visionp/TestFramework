@@ -4,13 +4,106 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ce6950ecbb2c04983464b3e569873b9f",
-    "content-hash": "3461d84c91799a09a48e59a016c65c06",
-    "packages": [],
+    "hash": "79b4276a739027c86f5fed715f306a49",
+    "content-hash": "e041e1daf8208ef49775b748233b7312",
+    "packages": [
+        {
+            "name": "predis/predis",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "6bc1a38123f61efde92d8b4a73adabf168e09442"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/6bc1a38123f61efde92d8b4a73adabf168e09442",
+                "reference": "6bc1a38123f61efde92d8b4a73adabf168e09442",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete PHP client library for Redis",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2015-07-30 18:51:15"
+        },
+        {
+            "name": "sl4mmer/phpcent",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sl4mmer/phpcent.git",
+                "reference": "3dc1f03a2716a57b4a4bdf25cabe67c15d1f1297"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sl4mmer/phpcent/zipball/3dc1f03a2716a57b4a4bdf25cabe67c15d1f1297",
+                "reference": "3dc1f03a2716a57b4a4bdf25cabe67c15d1f1297",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "phpcent": ".."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Php library to communicate with Centrifuge",
+            "homepage": "https://github.com/sl4mmer/phpcent",
+            "keywords": [
+                "centrifuge"
+            ],
+            "time": "2015-10-18 21:06:43"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "sl4mmer/phpcent": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
