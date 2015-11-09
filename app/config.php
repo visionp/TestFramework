@@ -9,7 +9,8 @@
 return [
     'components' => [
         'redis' => [
-            'class' => 'Redis'
+            'class' => 'components\Redis',
+            'options' =>['dd'=>5]
         ]
     ]
 ];

@@ -49,7 +49,7 @@ class SeviceLocator extends  ComponentBase {
 
         if(isset($this->config[$name]['options'])){
             foreach($this->config[$name]['options'] as $k => $v) {
-                $this->setParams($obj, $k, $v);
+                $this->setParam($obj, $k, $v);
             }
         }
         return $obj;
@@ -62,9 +62,9 @@ class SeviceLocator extends  ComponentBase {
      * @param $value
      * @throws \Exception
      */
-    protected function setParams(&$obj, $property, $value) {
+    protected function setParam(&$obj, $property, $value) {
         if(!property_exists($obj, $property)) {
-            throw new \Exception("Unknown property $property in " . get_class($obj));
+            throw new \Exception("Unknown property " . get_class($obj) . "::" . $property);
         }else {
             $obj->$property = $value;
         }

@@ -12,8 +12,6 @@ Class ControllerIndex extends ControllerBase{
 
         $redis = \Application::app()->redis;
 
-		$redis->connect('127.0.0.1', 6379);
-		$redis->auth('root');
 		//$redis->set('df', 45);
 		echo $redis->get('df');
 		die();

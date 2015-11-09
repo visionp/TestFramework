@@ -13,7 +13,7 @@ function loadClassF($class_name) {
 	if(is_file($file)){
 		include_once ($file);
 	} else {
-		throw new Exception('Not found file ' . $file);
+		throw new Exception("Error load class $class_name . Not found file " . $file);
 	}    
 }
 
