@@ -2,6 +2,8 @@
 
 namespace models;
 
+use components\Storage;
+
 Class BaseModel {
 	private $errors = [];
 

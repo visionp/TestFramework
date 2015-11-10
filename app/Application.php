@@ -2,19 +2,30 @@
 use components\Request;
 use components\SeviceLocator;
 
+/**
+ *
+ * @property components\Request $request The request component.
+ *
+ */
+
 Class Application {
 	
 	protected $request;
-	protected static $config;
     protected static $app;
-
+    protected static $config = [
+        'components' => [
+            'request' => [
+                'class' => 'components\Request'
+            ]
+        ]
+    ];
 
 	/**
 	 * Run application
 	 */
-	public function run(Request $request) {
+	public function run() {
 		try {
-            $this->request = $request;
+            $this->request = self::app()->request;
 			echo $this->route();
 		}catch (Exception $e){
 			echo $e->getMessage();
@@ -22,8 +33,12 @@ Class Application {
 	}
 
 
+    /**
+     * Application constructor.
+     * @param $config
+     */
 	public function __construct($config) {
-        self::$config = $config;
+        self::$config = array_replace_recursive(self::$config, $config);
 	}
 
 
@@ -44,6 +59,7 @@ Class Application {
 			throw new Exception('Method ' . $action_name . ' not exist.');
 		}
 	}
+
 
     /**
      * @return SeviceLocator

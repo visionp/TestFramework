@@ -16,16 +16,6 @@ Class ControllerIndex extends ControllerBase{
 		echo $redis->get('df');
 		die();
 
-
-		$form = new FormModel();
-		if($this->request->getIsAjax()) {
-			$form->load($this->request->getPost());
-			if($form->validate() && $form->save()) {
-				$this->sendJson(['status' => true]);
-			} else {
-				$this->sendJson(['status' => false, 'errors' => $form->getErrors()]);
-			}
-		}
 		return $this->render('index', [
 			'form' => $form
 		]);

@@ -23,6 +23,5 @@ require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Ap
 
 $config = require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config.php');
 
-$request = new \components\Request();
 $app = new Application($config);
-$app->run($request);
+$app->run();
