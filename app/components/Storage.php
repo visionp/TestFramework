@@ -1,5 +1,5 @@
 <?php
-namespace components;
+namespace app\components;
 
 class Storage  extends  ComponentBase {
 

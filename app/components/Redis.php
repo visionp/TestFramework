@@ -6,7 +6,7 @@
  * Time: 21:31
  */
 
-namespace components;
+namespace app\components;
 
 
 class Redis extends \Redis {

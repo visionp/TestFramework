@@ -6,7 +6,7 @@
  * Time: 21:12
  */
 
-namespace components;
+namespace app\components;
 
 
 class SeviceLocator extends  ComponentBase {
@@ -46,6 +46,7 @@ class SeviceLocator extends  ComponentBase {
         }
 
         $className = $this->config[$name]['class'];
+
         $obj = new $className();
 
         if(isset($this->config[$name]['options'])){

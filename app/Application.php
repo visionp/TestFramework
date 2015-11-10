@@ -1,6 +1,7 @@
 <?php
-use components\Request;
-use components\SeviceLocator;
+namespace app;
+
+use app\components\SeviceLocator;
 
 /**
  *
@@ -15,7 +16,7 @@ Class Application {
     protected static $config = [
         'components' => [
             'request' => [
-                'class' => 'components\Request'
+                'class' => 'app\components\Request'
             ]
         ]
     ];
@@ -25,7 +26,7 @@ Class Application {
 	 */
 	public function run() {
 		try {
-            $this->request = self::app()->request;
+            $this->request = $this->getRequest();
 			echo $this->route();
 		}catch (Exception $e){
 			echo $e->getMessage();
@@ -49,7 +50,7 @@ Class Application {
 	 * @throws Exception
 	 */
 	public function route() {
-		$controller_name = '\controllers\Controller' . ucfirst($this->request->getController());
+		$controller_name = 'app\controllers\Controller' . ucfirst($this->request->getController());
 		$action_name = 'Action'.ucfirst($this->request->getAction());
 		$controller = new  $controller_name;
 		if(method_exists($controller, $action_name)){
@@ -70,4 +71,14 @@ Class Application {
         }
         return self::$app;
 	}
+
+
+    /**
+     * Returns the request component.
+     * @return components\Request
+     */
+    public function getRequest()
+    {
+        return self::app()->request;
+    }
 }

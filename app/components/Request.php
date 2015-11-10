@@ -1,5 +1,5 @@
 <?php 
-namespace components;
+namespace app\components;
 
 Class Request  extends  ComponentBase {
 	

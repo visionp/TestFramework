@@ -6,7 +6,7 @@
  * Time: 21:12
  */
 
-namespace components;
+namespace app\components;
 
 
 class ComponentBase

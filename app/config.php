@@ -9,7 +9,7 @@
 return [
     'components' => [
         'redis' => [
-            'class' => 'components\Redis'
+            'class' => 'app\components\Redis'
         ]
     ]
 ];

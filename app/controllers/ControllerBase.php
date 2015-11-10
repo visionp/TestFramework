@@ -1,5 +1,5 @@
 <?php
-namespace controllers;
+namespace app\controllers;
 
 use views\View;
 

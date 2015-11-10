@@ -1,8 +1,8 @@
 <?php
 
-namespace models;
+namespace app\models;
 
-use components\Storage;
+use app\components\Storage;
 
 Class BaseModel {
 	private $errors = [];

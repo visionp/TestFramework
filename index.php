@@ -9,7 +9,7 @@ if(is_file($composer_autoload_path)){
 }
 
 function loadClassF($class_name) {
-	$file = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $class_name . '.php');
+	$file = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $class_name . '.php');
 	if(is_file($file)){
 		include_once ($file);
 	} else {
@@ -23,5 +23,5 @@ require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Ap
 
 $config = require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config.php');
 
-$app = new Application($config);
+$app = new \app\Application($config);
 $app->run();
