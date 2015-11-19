@@ -10,25 +10,14 @@ Class ControllerIndex extends ControllerBase{
 	
 	public function actionIndex() {
 
-        //$redis = \Application::app()->redis;
-        $redis = new \Redis();
-        $redis->connect('127.0.0.1');
-        $redis->auth('root');
+        $redis = \Application::app()->redis;
         $key = 'linus torvalds';
         $redis->hset($key, 'age', 44);
         $redis->hset($key, 're', 'ssdf');
         $t = $redis->hMGet($key, ['age', 're']);
-
-        //$t = $redis->hGetAll($key);
-
-        var_dump($t);
-
-
-        die();
-
-		return $this->render('index', [
-			'form' => $form
-		]);
+	return $this->render('index', [
+		'form' => $form
+	]);
 	}	
 	
 	
