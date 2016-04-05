@@ -1,14 +1,15 @@
 {
-    "name": "visionp/test-ws",
-    "description": "test-ws",
-    "keywords": ["test-ws"],
+    "name": "visionp/gateway_proxy",
+    "description": "gateway proxy",
+    "keywords": ["gateway proxy"],
     "type": "project",
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
-		"predis/predis" : "*",
-		"sl4mmer/phpcent":"dev-master"
+        "monolog/monolog": "*",
+        "doctrine/orm": "*",
+        "skyzyx/monolog-json-pretty-print-formatter": ">=1.0"
     },
     "require-dev": {
     },

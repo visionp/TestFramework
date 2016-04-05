@@ -5,15 +5,12 @@ Class View {
 
 	public $layout = 'layout';
 	public $viewPath = 'views';
+    protected $js = [];
+    protected $jsFile = [];
 
-	protected $name;
-	protected $params;
+	public $name;
+	public $params;
 
-
-	public function __construct($name, $params) {
-		$this->name = $name;
-		$this->params = $params;
-	}
 
 	/**
 	 * render view file
@@ -51,6 +48,32 @@ Class View {
 	}
 
 
+    public function registerJs($js, $positionEnd = true) {
+        $k = $this->getKeyPosition($positionEnd);
+        $this->js[$k][] = $js;
+    }
+
+
+    public function registerJsFile($js_source, $positionEnd = true) {
+        $k = $this->getKeyPosition($positionEnd);
+        $this->jsFile[$k][] = $js_source;
+    }
+
+    public function getKeyPosition($key){
+        return $key ? 1 : 0;
+    }
+
+    public function renderJs($positionEnd) {
+        $js = '';
+        if(count($this->js[$positionEnd])){
+            $js = '<script>';
+            $js .= implode(' ', $this->js[$positionEnd]);
+            $js .= '</script>';
+        }
+        return $js;
+    }
+
+
 	/**
 	 * required view to layout
 	 *
@@ -61,6 +84,7 @@ Class View {
 		extract($this->params, EXTR_OVERWRITE);
 		require($contentFile);
 	}
+
 
 
 }

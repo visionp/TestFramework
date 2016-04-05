@@ -2,6 +2,11 @@
 namespace app;
 
 use app\components\SeviceLocator;
+use app\exceptions\CurlException;
+use app\exceptions\ErrorException;
+use app\exceptions\ErrorParseXml;
+use app\exceptions\NotFoundException;
+use app\exceptions\SignException;
 
 /**
  *
@@ -10,27 +15,31 @@ use app\components\SeviceLocator;
  */
 
 Class Application {
-	
+
 	protected $request;
     protected static $app;
+
     protected static $config = [
         'components' => [
             'request' => [
                 'class' => 'app\components\Request'
-            ]
+            ],
+            'response' => [
+                'class' => 'app\components\Response'
+            ],
+			'logger' => [
+				'class' => 'app\components\Log'
+			]
         ]
     ];
+
 
 	/**
 	 * Run application
 	 */
 	public function run() {
-		try {
-            $this->request = $this->getRequest();
-			echo $this->route();
-		}catch (Exception $e){
-			echo $e->getMessage();
-		}
+		$response = $this->route();
+		$response->send();
 	}
 
 
@@ -39,7 +48,8 @@ Class Application {
      * @param $config
      */
 	public function __construct($config) {
-        self::$config = array_replace_recursive(self::$config, $config);
+        static::$config = array_replace_recursive(static::$config, $config);
+		App::$conf = static::$config;
 	}
 
 
@@ -47,17 +57,25 @@ Class Application {
 	 * Run method in controller
 	 *
 	 * @return mixed
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function route() {
+		$this->request = $this->getRequest();
+
 		$controller_name = 'app\controllers\Controller' . ucfirst($this->request->getController());
 		$action_name = 'Action'.ucfirst($this->request->getAction());
+
+		if(!class_exists($controller_name)){
+			throw new NotFoundException('Not found route: ' . $this->request->getPath());
+		}
+
 		$controller = new  $controller_name;
+
 		if(method_exists($controller, $action_name)){
-			$controller->request = $this->request;
-			return $controller->$action_name();
+			$response = $controller->$action_name();
+			return $response ? $response : static::app()->response;
 		} else {
-			throw new Exception('Method ' . $action_name . ' not exist.');
+			throw new NotFoundException('Not found route: ' . $this->request->getPath());
 		}
 	}
 
@@ -66,10 +84,10 @@ Class Application {
      * @return SeviceLocator
      */
 	public static function app() {
-        if(empty(self::$app)){
-            self::$app = new SeviceLocator(self::$config);
+        if(empty(static::$app)){
+			static::$app = new SeviceLocator(static::$config);
         }
-        return self::$app;
+        return static::$app;
 	}
 
 
@@ -79,6 +97,22 @@ Class Application {
      */
     public function getRequest()
     {
-        return self::app()->request;
+        return static::app()->request;
     }
+
+
+    /**
+     * Returns the request component.
+     * @return components\Response
+     */
+    public function getResponse()
+    {
+        return static::app()->response;
+    }
+
+
+	public static function getParams($attr)
+	{
+		return isset(static::$config[$attr]) ? static::$config[$attr] : [];
+	}
 }

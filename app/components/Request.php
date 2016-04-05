@@ -1,7 +1,11 @@
 <?php 
 namespace app\components;
 
-Class Request  extends  ComponentBase {
+use \app\helpers\Json;
+use app\helpers\Xml;
+
+Class Request  extends  ComponentBase
+{
 	
 	public $defaultController = 'index';
 	public $defaultAction = 'index';
@@ -12,7 +16,8 @@ Class Request  extends  ComponentBase {
 	 *
 	 * @return mixed
 	 */
-	public function getController() {
+	public function getController()
+	{
 		return $this->getParam(1, $this->defaultController);
 	}
 
@@ -22,7 +27,8 @@ Class Request  extends  ComponentBase {
 	 *
 	 * @return mixed
 	 */
-	public function getAction () {
+	public function getAction()
+	{
 		return $this->getParam(2, $this->defaultAction);
 	}
 
@@ -31,13 +37,50 @@ Class Request  extends  ComponentBase {
 	 * Get post value by name or POST data
 	 *
 	 * @param null $attribute
-	 * @return bool
+	 * @return array | object
 	 */
-	public function getPost($attribute = null) {
+	public function post($attribute = null)
+	{
 		if($attribute) {
-			return isset($_POST[$attribute]) ? $_POST[$attribute] : false;
+			return isset($_POST[$attribute]) ? $_POST[$attribute] : null;
 		} else {
 			return $_POST;
+		}
+	}
+
+
+	public function inputData()
+	{
+		$content = file_get_contents('php://input');
+		return $content;
+	}
+
+
+	public function getPostXml(){
+		$data = null;
+		$contentType = trim($_SERVER['CONTENT_TYPE']);
+		$contentType = strtolower($contentType);
+		if(!empty($contentType) && in_array($contentType, [Response::FORMAT_JSON, Response::FORMAT_XML])){
+			$content = $this->inputData();
+
+			$data = $content; //urldecode($content);
+		}
+		return $data;
+	}
+
+
+    /**
+	 * Get post value by name or POST data
+	 *
+	 * @param null $attribute
+	 * @return bool
+	 */
+	public function get($attribute = null)
+	{
+		if($attribute) {
+			return isset($_GET[$attribute]) ? $_GET[$attribute] : false;
+		} else {
+			return $_GET;
 		}
 	}
 
@@ -58,10 +101,18 @@ Class Request  extends  ComponentBase {
 	 *
 	 * @return bool
 	 */
-	public function getIsPost(){
+	public function getIsPost()
+	{
 		return $_SERVER['REQUEST_METHOD'] == 'POST';
 	}
 
+
+    public function getPath()
+    {
+        $path = isset($_SERVER['PATH_INFO']) && !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $_SERVER['REQUEST_URI'];
+        $path = explode('?', $path);
+        return array_shift($path);
+    }
 
 	/**
 	 * get controller or action name
@@ -70,10 +121,10 @@ Class Request  extends  ComponentBase {
 	 * @param $default
 	 * @return mixed
 	 */
-	protected function getParam($index, $default) {
-
-		$path = $_SERVER['PATH_INFO'];
-				$name = $default;
+	protected function getParam($index, $default)
+	{
+		$path = $this->getPath();
+		$name = $default;
 		if($path){
 			$controller_pre = explode('/', $path);
 			if(isset($controller_pre[$index]) && strlen($controller_pre[$index]) > 0){

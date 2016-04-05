@@ -1,1 +1,0 @@
-a:2:{i:0;a:4:{s:5:"email";s:12:"fdgdf@sdf.df";s:4:"name";s:5:"dsfds";s:9:"apartment";s:5:"fdgfd";s:7:"comment";s:5:"dfgdf";}i:1;a:4:{s:5:"email";s:14:"fdssd@sdfsd.ff";s:4:"name";s:3:"dsf";s:9:"apartment";s:3:"sdf";s:7:"comment";s:4:"1111";}}

@@ -1,3 +1,7 @@
+/cache
+/app/cache
+/app/config.php
+/log
 # phpstorm project files
 .idea
 

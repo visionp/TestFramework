@@ -11,8 +11,8 @@ namespace app\components;
 
 class SeviceLocator extends  ComponentBase {
 
+    public $config;
     protected $components = [];
-    protected $config;
 
 
     public function __construct($config) {
@@ -37,6 +37,7 @@ class SeviceLocator extends  ComponentBase {
      * @throws \Exception
      */
     protected function createObj($name) {
+
         if(!isset($this->config[$name])) {
             throw new \Exception("Unknown component $name");
         }
@@ -47,13 +48,20 @@ class SeviceLocator extends  ComponentBase {
 
         $className = $this->config[$name]['class'];
 
+        unset($this->config[$name]['class']);
+
         $obj = new $className();
 
-        if(isset($this->config[$name]['options'])){
-            foreach($this->config[$name]['options'] as $k => $v) {
+        if(isset($this->config[$name])){
+            foreach($this->config[$name]as $k => $v) {
                 $this->setParam($obj, $k, $v);
             }
         }
+
+        if(method_exists($obj, 'init')){
+            $obj->init();
+        }
+
         return $obj;
     }
 

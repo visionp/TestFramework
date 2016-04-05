@@ -9,7 +9,8 @@
 namespace app\components;
 
 
-class ComponentBase
-{
+use app\core\AdvancedObject;
 
+class ComponentBase extends AdvancedObject
+{
 }
