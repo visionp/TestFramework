@@ -56,27 +56,6 @@ class ErrorHandler extends ComponentBase
         if($e instanceof NotFoundException){
             $level = Logger::INFO;
             $code = 404;
-            $codeAppStatus = 1;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-        } elseif($e instanceof CurlException){
-            $level = Logger::WARNING;
-            $codeAppStatus = 999;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-        } elseif($e instanceof ErrorException){
-            $level = Logger::WARNING;
-            $codeAppStatus = 999;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-            $code = 500;
-        } elseif($e instanceof SignException){
-            $level = Logger::ALERT;
-            $codeAppStatus = 998;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-            $code = 403;
-        } elseif($e instanceof ErrorParseXml){
-            $level = Logger::WARNING;
-            $codeAppStatus = 5;
-            $customMessage = 'Error parse XML';
-            $code = 400;
         } elseif($e instanceof ParamsException){
             $level = Logger::WARNING;
             $customMessage = 'No Exist Property';
@@ -85,41 +64,13 @@ class ErrorHandler extends ComponentBase
             $level = Logger::WARNING;
             $customMessage = 'Error db';
             $code = 500;
-        }elseif($e instanceof NoExistProperty){
+        } elseif($e instanceof NotExistMethod){
             $level = Logger::CRITICAL;
-            $customMessage = 'Error api';
-            $codeAppStatus = 5;
             $code = 500;
-        }elseif($e instanceof NotExistMethod){
-            $level = Logger::CRITICAL;
-            $codeAppStatus = 25;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-            $code = 500;
-        }elseif($e instanceof NotFoundPayment){
+        } elseif($e instanceof DbException){
             $level = Logger::WARNING;
-            $codeAppStatus = 23;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-            $code = 500;
-        }elseif($e instanceof DbException){
+        } elseif($e instanceof NotTrustedIp){
             $level = Logger::WARNING;
-            $codeAppStatus = 999;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-            $code = 500;
-        }elseif($e instanceof MethodException){
-            $level = Logger::WARNING;
-            $codeAppStatus = 997;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-            $code = 500;
-        }elseif($e instanceof NotTrustedIp){
-            $level = Logger::WARNING;
-            $codeAppStatus = 995;
-            $customMessage = ErrorsContainer::getErrorDetail($codeAppStatus);
-            $code = 403;
-        }elseif($e instanceof SmsException){
-            $level = Logger::WARNING;
-            $codeAppStatus = 5;
-            $customMessage = $e->getMessage();
-            $code = 403;
         }
 
         Application::app()->logger->addRecord($level, $e->getMessage(), [
@@ -131,7 +82,7 @@ class ErrorHandler extends ComponentBase
         ]);
 
         $message = $this->debug ? $e->getMessage() : (!empty($customMessage) ? $customMessage : '');
-        $response->sendError($message, $code, ErrorsContainer::translate($codeAppStatus));
+        $response->sendError($message, $code, $codeAppStatus);
 
     }
 

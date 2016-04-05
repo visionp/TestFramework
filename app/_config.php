@@ -11,7 +11,7 @@ return [
             'class' => 'app\components\Pdo',
             'user' => 'root',
             'password' => '',
-            'dbname' => 'gateway'
+            'dbname' => ''
         ]
     ]
 ];
