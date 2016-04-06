@@ -20,7 +20,7 @@ class Xml extends Object
 {
 
     public $version = '1.0';
-    public $rootTag = KvsObject::RESPONSE;
+    public $rootTag = 'RESPONSE';
     public static $itemTag = 'item';
 
 
@@ -75,12 +75,10 @@ class Xml extends Object
                     $element->appendChild($child);
 
                     if(is_array($value->value)){
-                        //var_dump($value);die;
                         $this->buildXml($child, $value->value);
                     } else {
                         $child->appendChild(new DOMText((string) $value->value));
                     }
-
 
                     if(is_array($value->attributes)){
                         foreach($value->attributes as $attrName => $attrValue){

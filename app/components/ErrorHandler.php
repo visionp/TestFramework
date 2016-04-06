@@ -34,17 +34,23 @@ class ErrorHandler extends ComponentBase
     protected $otherError = false;
 
 
-    public function registerHandlers(){
+    /**
+     * Register error handlers
+     */
+    public function registerHandlers()
+    {
         ini_set('display_errors', false);
         set_exception_handler([$this, 'handleException']);
         set_error_handler([$this, 'handleError']);
         register_shutdown_function([$this, 'handleFatalError']);
     }
 
+
     /**
      * @param $e \Exception
      */
-    public function handleException($e) {
+    public function handleException($e)
+    {
 
         $this->otherError = true;
         $code = 500;
@@ -87,6 +93,13 @@ class ErrorHandler extends ComponentBase
     }
 
 
+    /**
+     * @param $errno
+     * @param $errstr
+     * @param $errfile
+     * @param $errline
+     * @return bool|void
+     */
     public function handleError($errno, $errstr, $errfile, $errline)
     {
         $this->otherError = true;
@@ -146,6 +159,9 @@ class ErrorHandler extends ComponentBase
     }
 
 
+    /**
+     * Handle fatal error
+     */
     public function handleFatalError()
     {
 
@@ -174,6 +190,10 @@ class ErrorHandler extends ComponentBase
     }
 
 
+    /**
+     * @param $error
+     * @return bool
+     */
     public static function isFatalError($error)
     {
         return isset($error['type']) && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_CORE_WARNING, E_COMPILE_ERROR, E_COMPILE_WARNING]);

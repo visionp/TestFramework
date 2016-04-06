@@ -32,7 +32,8 @@ class ApplicationConsole extends Application
      * @return mixed
      * @throws NotFoundException
      */
-    public function route() {
+    public function route()
+    {
         $this->request = $this->getRequest();
 
         $controller_name = 'app\commands\Controller' . ucfirst($this->request->getController());

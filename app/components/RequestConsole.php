@@ -12,6 +12,9 @@ namespace app\components;
 class RequestConsole extends Request
 {
 
+    /**
+     * @return mixed
+     */
     public function getPath()
     {
         $path = isset($_SERVER['argv'][1])? $_SERVER['argv'][1] : '';
@@ -19,6 +22,12 @@ class RequestConsole extends Request
         return array_shift($path);
     }
 
+
+    /**
+     * @param $index
+     * @param $default
+     * @return mixed
+     */
     protected function getParam($index, $default)
     {
         $path = $this->getPath();
@@ -32,7 +41,6 @@ class RequestConsole extends Request
         }
         return $name;
     }
-
 
 
     public function post($attribute = null)
@@ -70,9 +78,9 @@ class RequestConsole extends Request
     }
 
 
-    protected function error($m = 'Error')
+    protected function error($m = 'Not data. Console mode.')
     {
-        return 'Not data. Console mode.';
+        throw new \Exception($m);
     }
 
 

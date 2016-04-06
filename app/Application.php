@@ -37,7 +37,8 @@ Class Application {
 	/**
 	 * Run application
 	 */
-	public function run() {
+	public function run()
+	{
 		$response = $this->route();
 		$response->send();
 	}
@@ -47,7 +48,8 @@ Class Application {
      * Application constructor.
      * @param $config
      */
-	public function __construct($config) {
+	public function __construct($config)
+	{
         static::$config = array_replace_recursive(static::$config, $config);
 		App::$conf = static::$config;
 	}
@@ -59,7 +61,8 @@ Class Application {
 	 * @return mixed
 	 * @throws \Exception
 	 */
-	public function route() {
+	public function route()
+	{
 		$this->request = $this->getRequest();
 
 		$controller_name = 'app\controllers\Controller' . ucfirst($this->request->getController());
@@ -83,7 +86,8 @@ Class Application {
     /**
      * @return SeviceLocator
      */
-	public static function app() {
+	public static function app()
+	{
         if(empty(static::$app)){
 			static::$app = new SeviceLocator(static::$config);
         }
@@ -115,4 +119,5 @@ Class Application {
 	{
 		return isset(static::$config[$attr]) ? static::$config[$attr] : [];
 	}
+
 }

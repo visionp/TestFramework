@@ -11,6 +11,14 @@ namespace app\helpers;
 
 class File
 {
+
+    /**
+     * @param $path
+     * @param int $mode
+     * @param bool|true $recursive
+     * @return bool
+     * @throws \Exception
+     */
     public static function createDirectory($path, $mode = 0775, $recursive = true)
     {
         if (is_dir($path)) {

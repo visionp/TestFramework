@@ -18,7 +18,8 @@ Class View {
 	 * @return string
 	 * @throws Exception
 	 */
-	public function render() {
+	public function render()
+	{
 		ob_start();
 		ob_implicit_flush(false);
 		extract($this->params, EXTR_OVERWRITE);
@@ -27,7 +28,12 @@ Class View {
 		return ob_get_clean();
 	}
 
-	public function getBaseUrl() {
+
+	/**
+	 * @return string
+	 */
+	public function getBaseUrl()
+	{
 		return BASE_URL;
 	}
 
@@ -39,7 +45,8 @@ Class View {
 	 * @return string
 	 * @throws \Exception
 	 */
-	protected function findFile($viewName) {
+	protected function findFile($viewName)
+	{
 		$path = MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . $this->viewPath . DIRECTORY_SEPARATOR . $viewName . '.php';
 		if(!is_file($path)){
 			throw new \Exception('Не найдено файл ' . $path);
@@ -48,22 +55,40 @@ Class View {
 	}
 
 
-    public function registerJs($js, $positionEnd = true) {
+    public function registerJs($js, $positionEnd = true)
+	{
         $k = $this->getKeyPosition($positionEnd);
         $this->js[$k][] = $js;
     }
 
 
-    public function registerJsFile($js_source, $positionEnd = true) {
+	/**
+	 * @param $js_source
+	 * @param bool|true $positionEnd
+	 */
+    public function registerJsFile($js_source, $positionEnd = true)
+	{
         $k = $this->getKeyPosition($positionEnd);
         $this->jsFile[$k][] = $js_source;
     }
 
-    public function getKeyPosition($key){
+
+	/**
+	 * @param $key
+	 * @return int
+	 */
+    public function getKeyPosition($key)
+	{
         return $key ? 1 : 0;
     }
 
-    public function renderJs($positionEnd) {
+
+	/**
+	 * @param $positionEnd
+	 * @return string
+	 */
+    public function renderJs($positionEnd)
+	{
         $js = '';
         if(count($this->js[$positionEnd])){
             $js = '<script>';
@@ -79,12 +104,11 @@ Class View {
 	 *
 	 * @throws Exception
 	 */
-	protected function getContent() {
+	protected function getContent()
+	{
 		$contentFile = $this->findFile($this->name);
 		extract($this->params, EXTR_OVERWRITE);
 		require($contentFile);
 	}
-
-
 
 }

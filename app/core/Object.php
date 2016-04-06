@@ -8,10 +8,18 @@ namespace app\core;
  */
 abstract class Object
 {
+
+    /**
+     * Method run after self::__construct()
+     */
     public function init()
     {
     }
 
+
+    /**
+     * @return mixed
+     */
     public static function className()
     {
         return static::class;

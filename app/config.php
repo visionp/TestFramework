@@ -8,8 +8,15 @@
 
 return [
     'components' => [
-        'redis' => [
-            'class' => 'app\components\Redis'
+        'db' => [
+            'class' => 'app\components\Doctrine',
+            'host' => 'localhost',
+            'user' => 'root',
+            'password' => '',
+            'dbname' => ''
+        ],
+        'cache' => [
+            'class' => 'app\components\Cache'
         ]
     ]
 ];

@@ -15,7 +15,8 @@ class SeviceLocator extends  ComponentBase {
     protected $components = [];
 
 
-    public function __construct($config) {
+    public function __construct($config)
+    {
         $this->config = isset($config['components']) ? $config['components'] : [];
     }
 
@@ -23,7 +24,8 @@ class SeviceLocator extends  ComponentBase {
      * @param $name
      * @return mixed
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if(!isset($this->components[$name])) {
             $this->components[$name] = $this->createObj($name);
         }
@@ -36,7 +38,8 @@ class SeviceLocator extends  ComponentBase {
      * @return mixed
      * @throws \Exception
      */
-    protected function createObj($name) {
+    protected function createObj($name)
+    {
 
         if(!isset($this->config[$name])) {
             throw new \Exception("Unknown component $name");
@@ -72,7 +75,8 @@ class SeviceLocator extends  ComponentBase {
      * @param $value
      * @throws \Exception
      */
-    protected function setParam(&$obj, $property, $value) {
+    protected function setParam(&$obj, $property, $value)
+    {
         if(!property_exists($obj, $property)) {
             throw new \Exception("Unknown property " . get_class($obj) . "::" . $property);
         }else {

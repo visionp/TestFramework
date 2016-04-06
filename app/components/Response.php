@@ -34,7 +34,9 @@ class Response extends  ComponentBase
     protected $headers = [];
 
 
-
+    /**
+     * Send response
+     */
     public function send()
     {
         $header = $this->format . "; charset=" . $this->getCharset();
@@ -49,7 +51,7 @@ class Response extends  ComponentBase
         } else {
             echo $this->content;
         }
-        die;
+        exit(0);
     }
 
 
@@ -80,6 +82,10 @@ class Response extends  ComponentBase
     }
 
 
+    /**
+     * @param $name
+     * @param $value
+     */
     public function setHeaders($name, $value)
     {
         $this->headers[] = $value;
@@ -87,12 +93,18 @@ class Response extends  ComponentBase
     }
 
 
+    /**
+     * @return array
+     */
     public function getHeaders()
     {
         return $this->headers;
     }
 
 
+    /**
+     * @param $code
+     */
     protected function setHttpCode($code)
     {
         if(!empty($code) && is_integer($code)){
@@ -101,6 +113,9 @@ class Response extends  ComponentBase
     }
 
 
+    /**
+     * @return string
+     */
     protected function getCharset()
     {
         return $this->charset;
