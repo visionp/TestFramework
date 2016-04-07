@@ -9,6 +9,12 @@ namespace app\core;
 abstract class Object
 {
 
+    public function __construct()
+    {
+        $this->init();
+    }
+
+
     /**
      * Method run after self::__construct()
      */
