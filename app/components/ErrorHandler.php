@@ -54,7 +54,6 @@ class ErrorHandler extends ComponentBase
 
         $this->otherError = true;
         $code = 500;
-        $codeAppStatus = 999;
         $level = Logger::CRITICAL;
         $response = Application::app()->response;
         $customMessage = null;
@@ -88,7 +87,7 @@ class ErrorHandler extends ComponentBase
         ]);
 
         $message = $this->debug ? $e->getMessage() : (!empty($customMessage) ? $customMessage : '');
-        $response->sendError($message, $code, $codeAppStatus);
+        $response->sendError($message, $code);
 
     }
 
@@ -148,11 +147,10 @@ class ErrorHandler extends ComponentBase
 
         if(strripos ($errstr, 'simplexml_load_string') !== false){
             $codeAppStatus = 997;
-            $message = ErrorsContainer::getErrorDetail($codeAppStatus);
         }
 
         Application::app()->response->format = Response::FORMAT_XML;
-        $response->sendError($message, 500, ErrorsContainer::translate($codeAppStatus));
+        $response->sendError($message, 500);
 
         /* Не запускаем внутренний обработчик ошибок PHP */
         return true;
@@ -183,7 +181,7 @@ class ErrorHandler extends ComponentBase
             ]);
             $response = Application::app()->response;
             Application::app()->response->format = Response::FORMAT_XML;
-            $response->sendError('Error app', 500, ErrorsContainer::translate(999));
+            $response->sendError('Error app', 500);
             exit(1);
         }
 
