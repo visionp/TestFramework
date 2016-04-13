@@ -2,11 +2,9 @@
 namespace app;
 
 use app\components\SeviceLocator;
-use app\exceptions\CurlException;
-use app\exceptions\ErrorException;
-use app\exceptions\ErrorParseXml;
+use app\core\AdvancedObject;
 use app\exceptions\NotFoundException;
-use app\exceptions\SignException;
+
 
 /**
  *
@@ -14,9 +12,10 @@ use app\exceptions\SignException;
  *
  */
 
-Class Application {
+Class Application extends AdvancedObject{
 
 	protected $request;
+	protected $errorHandler;
     protected static $app;
 
     protected static $config = [
@@ -29,6 +28,9 @@ Class Application {
             ],
 			'logger' => [
 				'class' => 'app\components\Log'
+			],
+			'errorHandler' => [
+				'class' => '\app\components\ErrorHandler'
 			]
         ]
     ];
@@ -50,8 +52,17 @@ Class Application {
      */
 	public function __construct($config)
 	{
+		parent::__construct();
         static::$config = array_replace_recursive(static::$config, $config);
 		App::$conf = static::$config;
+	}
+
+
+	public function init()
+	{
+		$this->errorHandler = $this->getErrorHandler();
+		$this->errorHandler->debug = DEBUG;
+		$this->errorHandler->registerHandlers();
 	}
 
 
@@ -113,6 +124,16 @@ Class Application {
     {
         return static::app()->response;
     }
+
+
+	/**
+	 * Returns the error handler component.
+	 * @return components\ErrorHandler
+	 */
+	public function getErrorHandler()
+	{
+		return static::app()->errorHandler;
+	}
 
 
 	public static function getParams($attr)

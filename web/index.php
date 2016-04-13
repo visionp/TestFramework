@@ -18,10 +18,6 @@ function loadClassF($class_name) {
 
 spl_autoload_register('loadClassF');
 
-$exceptionHandler = new \app\components\ErrorHandler();
-$exceptionHandler->debug = DEBUG;
-$exceptionHandler->registerHandlers();
-
 require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'Application.php');
 
 $config = require(MAIN_DIRECTORY . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'config.php');
