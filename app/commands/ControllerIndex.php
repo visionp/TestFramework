@@ -38,10 +38,15 @@ class ControllerIndex extends ControllerBaseConsole
             fputcsv($file, $row, $this->csvDelimiter);
         }
         fclose($file);
+        $tableData = array_map(function($item){ return array_map(function($item){ return substr($item, 0, 30) . '...';}, $item);}, $tableData);
         $table = new ClassBuildTableAscii($tableData);
         return $this->renderConsole($table->asText());
     }
 
+    /**
+     * @param array $data
+     * @return array
+     */
     protected function makeCsvData(array $data)
     {
         $csvData = [];
