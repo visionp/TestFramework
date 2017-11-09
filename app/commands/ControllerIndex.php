@@ -16,7 +16,7 @@ class ControllerIndex extends ControllerBaseConsole
     protected $parser;
     protected $baseUrl = 'http://priceofficials.com';
     protected $parsedUrls = [];
-    protected $maxPages = 200;
+    protected $maxPages = 20;
 
     public function actionIndex()
     {
