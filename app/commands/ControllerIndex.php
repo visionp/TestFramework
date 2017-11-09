@@ -16,7 +16,7 @@ class ControllerIndex extends ControllerBaseConsole
     protected $parser;
     protected $baseUrl = 'http://priceofficials.com';
     protected $parsedUrls = [];
-    protected $maxPages = 500;
+    protected $maxPages = 200;
 
     public function actionIndex()
     {
@@ -117,7 +117,7 @@ class ControllerIndex extends ControllerBaseConsole
     protected function isShopLink($link)
     {
         $baseUrl = str_replace('/', '\/', $this->baseUrl);
-        $regularExpress = "/^({$baseUrl})?(\/?product).{2,}/i";
+        $regularExpress = "/^({$baseUrl})?(\/?product\/|product-category\/computers).{2,}/i";
         return preg_match($regularExpress, $link);
     }
 
