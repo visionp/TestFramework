@@ -108,7 +108,9 @@ class ControllerIndex extends ControllerBaseConsole
         if($isCan && $this->maxProducts > 0) {
             $isCan = $isCan && ($this->countProducts < $this->maxProducts);
         }
-        $this->parsedUrls[$key] = true;
+        if($isCan) {
+            $this->parsedUrls[$key] = true;
+        }
         return $isCan;
     }
 
