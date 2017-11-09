@@ -32,6 +32,7 @@ class ControllerIndex extends ControllerBaseConsole
     {
         if($this->isShopLink($url) && !$this->hasBaseLink($url)) {
             $url = str_replace('//', '/', $url);
+            $url = ltrim($url, '/');
             $url = $this->baseUrl . '/' . $url;
             $url .= preg_match('/\?/', $url) ? '&PageSpeed=noscript' : '?PageSpeed=noscript';
         }
