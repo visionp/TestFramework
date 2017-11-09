@@ -18,7 +18,7 @@ class ControllerIndex extends ControllerBaseConsole
     protected $baseUrl = 'http://priceofficials.com';
     protected $parsedUrls = [];
     protected $maxPages = 0;
-    protected $maxProducts = 2;
+    protected $maxProducts = 40;
     protected $countProducts = 0;
     protected $csvDelimiter = ';';
 
@@ -38,7 +38,7 @@ class ControllerIndex extends ControllerBaseConsole
             fputcsv($file, $row, $this->csvDelimiter);
         }
         fclose($file);
-        $tableData = array_map(function($item){ return array_map(function($item){ return substr($item, 0, 30) . '...';}, $item);}, $tableData);
+        $tableData = array_map(function($item){ return array_map(function($item){ return substr($item, 0, 30) . (strlen($item) > 30 ? '...' : '');}, $item);}, $tableData);
         $table = new ClassBuildTableAscii($tableData);
         return $this->renderConsole($table->asText());
     }
