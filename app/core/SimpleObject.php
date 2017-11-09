@@ -6,7 +6,7 @@ namespace app\core;
  * Date: 11.02.2016
  * Time: 16:06
  */
-abstract class Object
+abstract class SimpleObject
 {
 
     public function __construct()

@@ -9,7 +9,8 @@
         "php": ">=5.4.0",
         "monolog/monolog": "*",
         "doctrine/orm": "*",
-        "skyzyx/monolog-json-pretty-print-formatter": ">=1.0"
+        "skyzyx/monolog-json-pretty-print-formatter": ">=1.0",
+        "paquettg/php-html-parser": "dev-master"
     },
     "require-dev": {
     },

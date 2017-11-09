@@ -80,7 +80,7 @@ class RequestConsole extends Request
 
     protected function error($m = 'Not data. Console mode.')
     {
-        throw new \Exception($m);
+        return null;
     }
 
 

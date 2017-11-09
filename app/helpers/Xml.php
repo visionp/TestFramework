@@ -9,7 +9,7 @@
 namespace app\helpers;
 
 
-use app\core\Object;
+use app\core\SimpleObject;
 use app\exceptions\ErrorParseXml;
 use DOMDocument;
 use DOMElement;

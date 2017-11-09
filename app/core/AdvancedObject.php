@@ -12,7 +12,7 @@ namespace app\core;
 use app\interfaces\Observable;
 
 
-abstract class AdvancedObject extends Object implements Observable
+abstract class AdvancedObject extends SimpleObject implements Observable
 {
 
     protected $_observers = [];

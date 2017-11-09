@@ -3,7 +3,7 @@ namespace app\controllers;
 
 use app\Application;
 use app\core\AdvancedObject;
-use app\core\Object;
+use app\core\SimpleObject;
 use app\views\View;
 
 Class ControllerBase extends AdvancedObject
@@ -21,6 +21,7 @@ Class ControllerBase extends AdvancedObject
 
     public function __construct()
     {
+        parent::__construct();
 		$this->notify(self::EVENT_BEFORE_ACTION);
         $this->view = new View();
     }

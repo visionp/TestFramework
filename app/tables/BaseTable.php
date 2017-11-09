@@ -10,7 +10,7 @@ namespace app\tables;
 
 
 use app\Application;
-use app\core\Object;
+use app\core\SimpleObject;
 use app\helpers\Http;
 use Monolog\Logger;
 

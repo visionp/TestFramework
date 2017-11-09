@@ -10,11 +10,17 @@ namespace app\commands;
 
 
 use app\controllers\ControllerBase;
+use app\exceptions\BaseException;
 
 class ControllerBaseConsole extends ControllerBase
 {
 
-    protected function render($data = null) {
+    protected function render($viewName, $options = []) {
+        throw new BaseException('Method ' . __METHOD__ . ' for console is deprecated');
+    }
+
+    protected function renderConsole($data = null)
+    {
         if(empty($data)){
             $data = '';
         }
@@ -23,5 +29,9 @@ class ControllerBaseConsole extends ControllerBase
         return $response;
     }
 
+    protected function echoToConsole($string)
+    {
+        fwrite(STDOUT, $string . "\n\r");
+    }
 
 }

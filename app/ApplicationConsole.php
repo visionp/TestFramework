@@ -23,6 +23,9 @@ class ApplicationConsole extends Application
             ],
             'logger' => [
                 'class' => 'app\components\Log'
+            ],
+            'errorHandler' => [
+                'class' => '\app\components\ErrorHandler'
             ]
         ]
     ];
@@ -34,6 +37,7 @@ class ApplicationConsole extends Application
      */
     public function route()
     {
+
         $this->request = $this->getRequest();
 
         $controller_name = 'app\commands\Controller' . ucfirst($this->request->getController());
@@ -43,7 +47,7 @@ class ApplicationConsole extends Application
             throw new NotFoundException('Not found route: ' . $this->request->getPath());
         }
 
-        $controller = new  $controller_name;
+        $controller = new  $controller_name ();
 
         if(method_exists($controller, $action_name)){
             $response = $controller->$action_name();
