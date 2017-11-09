@@ -9,3 +9,4 @@
 # composer vendor dir
 /vendor
 
+/storage/result-parsing.txt

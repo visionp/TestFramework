@@ -16,23 +16,27 @@ class ControllerIndex extends ControllerBaseConsole
     protected $parser;
     protected $baseUrl = 'http://priceofficials.com';
     protected $parsedUrls = [];
+    protected $maxPages = 500;
 
     public function actionIndex()
     {
         ini_set('memory_limit', '-1');
 
         $this->parsePage($this->baseUrl);
-        return $this->renderConsole(print_r(array_filter($this->parsedUrls), 1));
+        $filePath = MAIN_DIRECTORY . 'storage' . DIRECTORY_SEPARATOR . 'result-parsing.txt';
+        file_put_contents($filePath, print_r(array_filter($this->parsedUrls), 1));
+        return $this->renderConsole('Done, see ' . $filePath);
     }
 
     protected function parsePage($url)
     {
-        if($this->isShopLink($url)) {
+        if($this->isShopLink($url) && !$this->hasBaseLink($url)) {
             $url = $this->baseUrl . '/' . $url;
             $url = str_replace('//', '/', $url);
+            $url .= preg_match('/\?/', $url) ? '&PageSpeed=noscript' : '?PageSpeed=noscript';
         }
 
-        if(!key_exists($url, $this->parsedUrls) && count($this->parsedUrls) < 40) {
+        if(!key_exists($url, $this->parsedUrls) && count($this->parsedUrls) < $this->maxPages) {
             $this->echoToConsole("Parsing url: {$url}");
 
             /**
@@ -114,6 +118,13 @@ class ControllerIndex extends ControllerBaseConsole
     {
         $baseUrl = str_replace('/', '\/', $this->baseUrl);
         $regularExpress = "/^({$baseUrl})?(\/?product).{2,}/i";
+        return preg_match($regularExpress, $link);
+    }
+
+    protected function hasBaseLink($link)
+    {
+        $baseUrl = str_replace('/', '\/', $this->baseUrl);
+        $regularExpress = "/^{$baseUrl}/i";
         return preg_match($regularExpress, $link);
     }
 }
