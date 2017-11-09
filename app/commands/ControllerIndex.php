@@ -31,8 +31,8 @@ class ControllerIndex extends ControllerBaseConsole
     protected function parsePage($url)
     {
         if($this->isShopLink($url) && !$this->hasBaseLink($url)) {
-            $url = $this->baseUrl . '/' . $url;
             $url = str_replace('//', '/', $url);
+            $url = $this->baseUrl . '/' . $url;
             $url .= preg_match('/\?/', $url) ? '&PageSpeed=noscript' : '?PageSpeed=noscript';
         }
 
@@ -124,7 +124,7 @@ class ControllerIndex extends ControllerBaseConsole
     protected function hasBaseLink($link)
     {
         $baseUrl = str_replace('/', '\/', $this->baseUrl);
-        $regularExpress = "/^{$baseUrl}/i";
+        $regularExpress = "/^{$baseUrl}.*/i";
         return preg_match($regularExpress, $link);
     }
 }
