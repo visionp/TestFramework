@@ -19,7 +19,7 @@ class ControllerBaseConsole extends ControllerBase
         throw new BaseException('Method ' . __METHOD__ . ' for console is deprecated');
     }
 
-    protected function renderConsole($data = null)
+    protected function renderToConsole($data = null)
     {
         if(empty($data)){
             $data = '';

@@ -18,8 +18,9 @@ class ControllerIndex extends ControllerBaseConsole
     protected $baseUrl = 'http://priceofficials.com';
     protected $parsedUrls = [];
     protected $maxPages = 0;
-    protected $maxProducts = 40;
+    protected $maxProducts = 2;
     protected $countProducts = 0;
+    protected $csvNameFile = 'result-parsing.csv';
     protected $csvDelimiter = ';';
 
     /**
@@ -28,19 +29,32 @@ class ControllerIndex extends ControllerBaseConsole
     public function actionIndex()
     {
         ini_set('memory_limit', '-1');
+        $startTime = microtime(true);
+        $data = array_filter($this->parsePage($this->baseUrl));
+        $this->writeToCsv($data);
+        $endTime = microtime(true);
+        $consoleData = [
+            [
+                'status' => 'done',
+                'time, s' => $endTime - $startTime,
+                'Count parsed links' => count($this->parsedUrls)
+            ]
+        ];
+        $table = new ClassBuildTableAscii($consoleData);
+        return $this->renderToConsole($table->asText());
+    }
 
-        $this->parsePage($this->baseUrl);
-        $filePath = MAIN_DIRECTORY . 'storage' . DIRECTORY_SEPARATOR . 'result-parsing.csv';
-        $data = array_filter($this->parsedUrls);
+    /**
+     * @param array $data
+     */
+    protected function writeToCsv(array $data)
+    {
+        $filePath = MAIN_DIRECTORY . 'storage' . DIRECTORY_SEPARATOR . $this->csvNameFile;
         $file = fopen($filePath, 'w+');
-        $tableData = $this->makeCsvData($data);
-        foreach($tableData as $row) {
+        foreach($this->makeCsvData($data) as $row) {
             fputcsv($file, $row, $this->csvDelimiter);
         }
         fclose($file);
-        $tableData = array_map(function($item){ return array_map(function($item){ return substr($item, 0, 30) . (strlen($item) > 30 ? '...' : '');}, $item);}, $tableData);
-        $table = new ClassBuildTableAscii($tableData);
-        return $this->renderConsole($table->asText());
     }
 
     /**
@@ -50,6 +64,11 @@ class ControllerIndex extends ControllerBaseConsole
     protected function makeCsvData(array $data)
     {
         $csvData = [];
+        $csvData[] = [
+            'url' => 'Url',
+            'name' => 'Name',
+            'price' => 'Price'
+        ];
         foreach($data as $name => $row) {
             $csvData[] = [
                 'url' => $name,
@@ -59,6 +78,7 @@ class ControllerIndex extends ControllerBaseConsole
         }
         return $csvData;
     }
+
     /**
      * @param $url
      * @return array
@@ -208,4 +228,5 @@ class ControllerIndex extends ControllerBaseConsole
         $regularExpress = "/^{$baseUrl}.*/i";
         return preg_match($regularExpress, $link);
     }
+
 }
