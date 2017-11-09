@@ -52,7 +52,12 @@ class ControllerIndex extends ControllerBaseConsole
     protected function writeToCsv(array $data)
     {
         $file = fopen($this->getFilePath(), 'w+');
-        foreach($this->makeCsvData($data) as $row) {
+        array_unshift($data, [
+            'url' => 'Url',
+            'name' => 'Name',
+            'price' => 'Price'
+        ]);
+        foreach($data as $row) {
             fputcsv($file, $row, $this->csvDelimiter);
         }
         fclose($file);
@@ -64,34 +69,13 @@ class ControllerIndex extends ControllerBaseConsole
     }
 
     /**
-     * @param array $data
-     * @return array
-     */
-    protected function makeCsvData(array $data)
-    {
-        $csvData = [];
-        $csvData[] = [
-            'url' => 'Url',
-            'name' => 'Name',
-            'price' => 'Price'
-        ];
-        foreach($data as $name => $row) {
-            $csvData[] = [
-                'url' => $name,
-                'name' => $row['name'],
-                'price' => $row['price']
-            ];
-        }
-        return $csvData;
-    }
-
-    /**
      * @param $url
      * @return array
      */
     protected function parsePage($url)
     {
-        $url = $this->preparedLink($url);
+        $url = $this->prepareLink($url);
+        $items = [];
 
         if($this->canContinue($url)) {
             $this->echoToConsole("Parsing url: {$url}");
@@ -99,13 +83,13 @@ class ControllerIndex extends ControllerBaseConsole
              * @var \PHPHtmlParser\Dom $domHtml
              */
             $domHtml = $this->getParser()->loadFromUrl($url);
-            $this->parsedUrls[$url] = $this->isProductLink($url) ? $this->getProductInfo($domHtml) : null;
+            $items[] = $this->isProductLink($url) ? $this->getProductInfo($url, $domHtml) : null;
 
             foreach($this->getAllLinks($domHtml) as $a) {
-                $this->parsePage($a);
+                $items = array_merge($items, $this->parsePage($a));
             }
 
-            return $this->parsedUrls;
+            return $items;
         }
         return [];
     }
@@ -116,13 +100,15 @@ class ControllerIndex extends ControllerBaseConsole
      */
     protected function canContinue($url)
     {
-        $isCan = !key_exists($url, $this->parsedUrls);
+        $key = md5($url);
+        $isCan = !key_exists($key, $this->parsedUrls);
         if($isCan && $this->maxPages > 0) {
             $isCan = $isCan && (count($this->parsedUrls) < $this->maxPages);
         }
         if($isCan && $this->maxProducts > 0) {
             $isCan = $isCan && ($this->countProducts < $this->maxProducts);
         }
+        $this->parsedUrls[$key] = true;
         return $isCan;
     }
 
@@ -130,7 +116,7 @@ class ControllerIndex extends ControllerBaseConsole
      * @param $url
      * @return mixed|string
      */
-    protected function preparedLink($url)
+    protected function prepareLink($url)
     {
         if($this->isShopLink($url) && !$this->hasBaseLink($url)) {
             $url = str_replace('//', '/', $url);
@@ -145,16 +131,17 @@ class ControllerIndex extends ControllerBaseConsole
      * @param Dom $domHtml
      * @return array
      */
-    protected function getProductInfo(\PHPHtmlParser\Dom $domHtml)
+    protected function getProductInfo($url, \PHPHtmlParser\Dom $domHtml)
     {
         $result = [];
         foreach($domHtml->find('div.lt-product-details-page div.product-info') as $item) {
             $result = [
+                'url' => $url,
                 'name' => $this->getDetails($item),
                 'price' => $this->getPrice($item),
             ];
-            $this->countProducts++;
         }
+        $this->countProducts++;
         return $result;
     }
 
@@ -180,9 +167,8 @@ class ControllerIndex extends ControllerBaseConsole
      */
     protected function getAllLinks(\PHPHtmlParser\Dom  $domHtml)
     {
-        $links = $domHtml->find('a');
         $result = [];
-        foreach($links as $link) {
+        foreach($domHtml->find('a') as $link) {
             $href = $link->href;
             if($this->isShopLink($href)) {
                 $result[] = trim($href);
