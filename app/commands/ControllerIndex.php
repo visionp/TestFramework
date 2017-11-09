@@ -35,9 +35,11 @@ class ControllerIndex extends ControllerBaseConsole
         $endTime = microtime(true);
         $consoleData = [
             [
-                'status' => 'done',
-                'time, s' => $endTime - $startTime,
-                'Count parsed links' => count($this->parsedUrls)
+                'Status' => 'done',
+                'Time, s' => $endTime - $startTime,
+                'Number of parsed links' => count($this->parsedUrls),
+                'Number of products' => $this->countProducts,
+                'Result file' => $this->getFilePath()
             ]
         ];
         $table = new ClassBuildTableAscii($consoleData);
@@ -49,12 +51,16 @@ class ControllerIndex extends ControllerBaseConsole
      */
     protected function writeToCsv(array $data)
     {
-        $filePath = MAIN_DIRECTORY . 'storage' . DIRECTORY_SEPARATOR . $this->csvNameFile;
-        $file = fopen($filePath, 'w+');
+        $file = fopen($this->getFilePath(), 'w+');
         foreach($this->makeCsvData($data) as $row) {
             fputcsv($file, $row, $this->csvDelimiter);
         }
         fclose($file);
+    }
+
+    protected function getFilePath()
+    {
+        return $filePath = MAIN_DIRECTORY . 'storage' . DIRECTORY_SEPARATOR . $this->csvNameFile;;
     }
 
     /**
